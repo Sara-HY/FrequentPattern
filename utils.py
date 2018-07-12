@@ -7,12 +7,14 @@ confs = ['IJCAI', 'AAAI', 'COLT', 'CVPR', 'NIPS', 'KR', 'SIGIR', 'KDD']
 pat = re.compile("[\.~`!@#$%^&*()_+\-={}\[\]|\\\\;:'\",<>/?]")
 
 
+# parse the papers to JSON Obejcts
 def parse_data(data_path, write_path='./data/data.pkl'):
     data = []
     with codecs.open(data_path, 'r', encoding='utf8') as f:
         author, title, year, conf = [], None, None, None
         for line in f.readlines():
-            if line.startswith('#'):
+            # add a paper information
+            if line.startswith('#'): 
                 if len(author) != 0 and conf in confs:
                     data.append({
                         'author': author.copy(),
@@ -32,6 +34,7 @@ def parse_data(data_path, write_path='./data/data.pkl'):
                         title = value
                     else:
                         conf = value
+        # add the last paper information
         if len(author) != 0 and conf in confs:
             data.append({
                 'author': author,
@@ -45,6 +48,7 @@ def parse_data(data_path, write_path='./data/data.pkl'):
     return data
 
 
+# write the authors of every paper
 def write_author_list(data, file_path='./data/author_list/list.csv'):
     with codecs.open(file_path, 'w', encoding='utf8') as f:
         csv_writer = csv.writer(f)
@@ -52,6 +56,7 @@ def write_author_list(data, file_path='./data/author_list/list.csv'):
             csv_writer.writerow(item['author'])
 
 
+# load the paper obejcts
 def load_data(data_path='./data/data.pkl'):
     f = codecs.open(data_path, 'rb')
     data = pickle.load(f)
@@ -59,6 +64,7 @@ def load_data(data_path='./data/data.pkl'):
     return data
 
 
+# load the authors of every paper
 def load_author_list(file_path='./data/author_list/list.csv'):
     author_list = []
     with codecs.open(file_path, 'r', encoding='utf8') as f:
@@ -68,6 +74,7 @@ def load_author_list(file_path='./data/author_list/list.csv'):
     return author_list
 
 
+# load the authors of every team
 def load_teams(team_path='./data/author_list/team'):
     team_set = []
     teams = codecs.open(team_path, 'r', encoding='utf8').readlines()

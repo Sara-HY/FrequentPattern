@@ -11,7 +11,7 @@ from utils import load_data, confs
 
 
 def find_researcher_of_conf(data):
-    researchers = {}
+    researchers = {}    # map the papers according to the conference
     for item in data:
         conf = item['conf']
         if conf not in researchers:
@@ -22,7 +22,7 @@ def find_researcher_of_conf(data):
         os.makedirs(file_path)
 
     for conf in confs:
-        conf_researchers = {}
+        conf_researchers = {}    # map the authors according to the year
         for item in researchers[conf]:
             year = item['year']
             if year not in conf_researchers:
@@ -50,6 +50,7 @@ def find_researcher_of_conf(data):
                 f.write(r[0] + '\n')
 
 
+# find the authors who have paper after 2007
 def find_active_researchers(active_list, base_year=2007, flag=0):
     """
     Rank the authors of the conference and return the result.
@@ -57,10 +58,13 @@ def find_active_researchers(active_list, base_year=2007, flag=0):
     researchers = {}
     for item in active_list:
         for r in item['authors']:
+            #set the bit to 1 corresponding to that year if a paper has been published in a certain year
             if r not in researchers:
                 researchers[r] = 1 << item['year'] - base_year
             else:
                 researchers[r] = (1 << item['year'] - base_year) | researchers[r]
+
+    # sort according to the nearest publication year
     active = sorted(researchers.items(), key=lambda x: x[1], reverse=True)
 
     # filter

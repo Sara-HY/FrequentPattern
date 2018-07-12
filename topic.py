@@ -19,6 +19,7 @@ def load_stopwords(file_path='./data/topic/stop_words'):
     return stop_words
 
 
+# training the lda model
 def train(data, save_path='./data/topic/'):
     train_data = []
     stop_words = load_stopwords()
@@ -26,6 +27,7 @@ def train(data, save_path='./data/topic/'):
         words = pat.sub('', item['title']).lower().split()
         train_data.append([w for w in words if w not in stop_words])
 
+    # Generating the word bag data of the LDA model, each element is a two-group (id, frequency)
     dictionary = Dictionary(train_data)
     dictionary.save(save_path + 'titles.dict')
     corpus = [dictionary.doc2bow(text) for text in train_data]
@@ -68,6 +70,7 @@ def get_topics(lda, team_papers, dict_path='./data/topic/titles.dict'):
     return team_topics
 
 
+# make the top-3 keywords as topic
 def parse_topic(str_topic, idx=3):
     p = re.compile(r'\"(.+?)\"')
     topics = re.findall(p, str_topic)

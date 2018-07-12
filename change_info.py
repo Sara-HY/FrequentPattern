@@ -52,6 +52,7 @@ def get_topic_change(data,
                 team_exists_years[team] = 1
             else:
                 team_exists_years[team] += 1
+    # ignore the teams who have published papers for less than three years
     for k in list(team_exists_years.keys()):
         if team_exists_years[k] < 3:
             team_exists_years.pop(k)
