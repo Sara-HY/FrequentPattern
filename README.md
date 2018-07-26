@@ -1,4 +1,4 @@
-##### Frequent Pattern Mining on DBLP
+### Frequent Pattern Mining on DBLP
 
 **Data**:  All paper information of IJCAI, AAAI, COLT, CVPR, NIPS, KR, SIGIR, SIGKDD  in the DBLP database since 2007.
 
